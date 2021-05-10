@@ -1,0 +1,15 @@
+Entidade: Biblioteca de filmes e séries
+
+series:
+- id
+- nome
+- temporada
+- episodio
+- genero
+
+---------
+
+filmes:
+- id
+- nome
+- genero
