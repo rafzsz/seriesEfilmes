@@ -22,6 +22,11 @@ export const routes = [
         name: 'Filme'
     },
     {
+        path: '/create',
+        component: FormFilmComponent,
+        name: 'NovoFilm'
+    },
+    {
         path: '/view/:id',
         component: FormFilmComponent,
         name: 'VisualFilme'
@@ -35,6 +40,11 @@ export const routes = [
         path: '/excluir/:id',
         component: FormFilmComponent,
         name: 'ExcluirFilme'
+    },
+    {
+        path: '/create/',
+        component: FormSerieComponent,
+        name: 'NovaSerie'
     },
     {
         path: '/view/:id',

@@ -24,7 +24,7 @@ export const FormFilmComponent = {
                     </div>                    
         
                     <div class="mt-7">
-                        <button class="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" v-on:click="opcoes()">
+                        <button class="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" v-on:click="comunicaApi(methods)">
                             Confirmar
                         </button>
                     </div>
@@ -69,6 +69,9 @@ export const FormFilmComponent = {
             this.tituloPagina = 'Excluir um Filme'
             this.getFilme(this.$route.params.id)
             this.deletePublished(this.$route.params.id)
+        } else if (this.$route.name = 'NovoFilm') {
+            this.tituloPagina = 'Criar um Registro'
+            this.createPublication
         }
     },
     methods: {
@@ -78,6 +81,23 @@ export const FormFilmComponent = {
                     this.filme.id = data.id
                     this.filme.nome = data.nome
                     this.filme.genero = data.genero
+                }))
+        },
+        createPublication() {
+            fetch(`http://127.0.0.1:8080/filme/`, {
+                method: 'POST',
+                body: JSON.stringify(this.filme),
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then(response => response.json().then((data) => {
+                    this.filme.id = data.id
+                    this.filme.nome = data.nome
+                    this.filme.genero = data.genero
+                    this.$router.push('/filme')
                 }))
         },
         updatePublished() {
@@ -94,10 +114,11 @@ export const FormFilmComponent = {
                     this.filme.id = data.id
                     this.filme.nome = data.nome
                     this.filme.genero = data.genero
+                    this.$router.push('/filme')
                 }))
         },
-        deletePublished() {
-            fetch(`http://127.0.0.1:8080/filme`, {
+        deletePublished(id) {
+            fetch(`http://127.0.0.1:8080/filme/${id}`, {
                 method: 'DELETE',
                 body: JSON.stringify(this.filme),
                 mode: "cors",
@@ -115,11 +136,15 @@ export const FormFilmComponent = {
         cancelar() {
             this.$router.push('/');
         },
-        opcoes(method) {
-            if (this.tituloPagina = 'Editar um Filme') {
-                this.updatePublished;
-            } else if (this.tituloPagina = 'Excluir um Filme') {
-                this.deletePublished;
+        comunicaApi(methods) {
+            if (this.$route.name == 'EditarFilme') {
+                this.updatePublished()
+            } else if (this.$route.name == 'ExcluirFilme') {
+                this.deletePublished()
+            } else if (this.$route.name = 'NovoFilm') {
+                this.createPublication()
+            } else if (this.$route.name == 'VisualFilme') {
+                this.$router.push('/filme')
             }
         }
     }

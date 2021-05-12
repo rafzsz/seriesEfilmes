@@ -32,17 +32,17 @@ export const FormSerieComponent = {
                     </div>                    
         
                     <div class="mt-7">
-                        <button class="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                        <button class="bg-green-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105" v-on:click="comunicaApi(methods)">
                             Confirmar
                         </button>
                     </div>
 
                     <div class="mt-7">
-                        <router-link :to="{name: 'Serie'}">
-                            <button class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
+                    <router-link :to="{name: 'Serie'}">
+                        <button class="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105">
                             Voltar
-                            </button>
-                        </route-link>
+                        </button>
+                    </router-link>
                     </div>
 
                     <div class="mt-7">
@@ -71,15 +71,95 @@ export const FormSerieComponent = {
     created: function () {
         if (this.$route.name == 'VisualSerie') {
             this.tituloPagina = 'Visualizar uma série';
+            this.getSerie(this.$route.params.id)
         } else if (this.$route.name == 'EditarSerie') {
             this.tituloPagina = 'Editar uma série'
+            this.getSerie(this.$route.params.id)
         } else if (this.$route.name == 'ExcluirSerie') {
             this.tituloPagina = 'Excluir uma série'
+            alert("Item removido!")
+            this.deletePublished(this.$route.params.id)
+        } else if (this.$route.name == 'NovaSerie') {
+            this.tituloPagina = 'Criar um Registro'
+            this.createPublication
         }
     },
     methods: {
+        getSerie(id) {
+            fetch(`http://localhost:8080/serie/${id}`)
+                .then(response => response.json().then((data) => {
+                    this.serie.id = data.id
+                    this.serie.nome = data.nome
+                    this.serie.temporada = data.temporada
+                    this.serie.episodio = data.episodio
+                    this.serie.genero = data.genero
+                }))
+        },
+        createPublication() {
+            fetch(`http://127.0.0.1:8080/serie/`, {
+                method: 'POST',
+                body: JSON.stringify(this.serie),
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then(response => response.json().then((data) => {
+                    this.serie.id = data.id
+                    this.serie.nome = data.nome
+                    this.serie.temporada = data.temporada
+                    this.serie.episodio = data.episodio
+                    this.serie.genero = data.genero
+                    this.$router.push('/serie')
+                }))
+        },
+        updatePublished() {
+            fetch(`http://127.0.0.1:8080/serie`, {
+                method: 'PUT',
+                body: JSON.stringify(this.serie),
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then(response => response.json().then((data) => {
+                    this.serie.id = data.id
+                    this.serie.nome = data.nome
+                    this.serie.temporada = data.temporada
+                    this.serie.episodio = data.episodio
+                    this.serie.genero = data.genero
+                    this.$router.push('/serie')
+                }))
+        },
+        deletePublished(id) {
+            fetch(`http://127.0.0.1:8080/serie/${id}`, {
+                method: 'DELETE',
+                body: JSON.stringify(this.serie),
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        this.$router.push('/serie')
+                    }
+                })
+        },
         cancelar() {
             this.$router.push('/');
+        },
+        comunicaApi(methods) {
+            if (this.$route.name == 'EditarSerie') {
+                this.updatePublished()
+            } else if (this.$route.name == 'ExcluirSerie') {
+                this.deletePublished()
+            } else if (this.$route.name == 'NovaSerie') {
+                this.createPublication()
+            }
         }
     }
 }
