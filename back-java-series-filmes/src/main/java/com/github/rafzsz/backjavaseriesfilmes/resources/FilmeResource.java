@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.rafzsz.backjavaseriesfilmes.models.Filme;
 import com.github.rafzsz.backjavaseriesfilmes.repositorys.FilmeRepository;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/filme")
 public class FilmeResource {

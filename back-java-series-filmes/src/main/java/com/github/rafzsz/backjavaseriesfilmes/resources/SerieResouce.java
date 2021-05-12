@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.rafzsz.backjavaseriesfilmes.models.Serie;
 import com.github.rafzsz.backjavaseriesfilmes.repositorys.SerieRepository;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/serie")
 public class SerieResouce {
