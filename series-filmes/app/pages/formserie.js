@@ -159,6 +159,8 @@ export const FormSerieComponent = {
                 this.deletePublished()
             } else if (this.$route.name == 'NovaSerie') {
                 this.createPublication()
+            } else if (this.$route.name == 'VisualSerie') {
+                this.$router.push('/filme')
             }
         }
     }

@@ -67,7 +67,7 @@ export const FormFilmComponent = {
             this.getFilme(this.$route.params.id)
         } else if (this.$route.name == 'ExcluirFilme') {
             this.tituloPagina = 'Excluir um Filme'
-            this.getFilme(this.$route.params.id)
+            alert("Item removido!")
             this.deletePublished(this.$route.params.id)
         } else if (this.$route.name = 'NovoFilm') {
             this.tituloPagina = 'Criar um Registro'
